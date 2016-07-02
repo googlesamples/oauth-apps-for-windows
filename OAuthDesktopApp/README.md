@@ -2,7 +2,8 @@ OAuth for Apps: Sample Desktop Application for Windows
 ============
 
 This sample shows how to do an OAuth 2.0 Authorization flow from a Windows
-Desktop application.
+Desktop application. It is one of a [series of OAuth samples](../README.md)
+for Windows.
 
 Introduction
 ------------
@@ -13,11 +14,11 @@ an embedded browser).
 
 This sample demonstrates how you can open the user's browser with your OAuth 2.0
 authorization request (where they might already be logged in!), have them
-complete the consent, recieve the Authorization Code using a local loopback
+complete the consent, receive the Authorization Code using a local loopback
 socket, and exchanging that code for authorization tokens.
 
-Pre-requisites
---------------
+Google Documentation
+--------------------
 
 The protocols referenced in this sample are documented here:
 
@@ -28,8 +29,8 @@ Getting Started
 ---------------
 
 1. Open the solution file: `OAuthDesktopApp.sln`
-2. Run the app your Local Device, or the device of your choosing.
-3. When the app starts, tap "OAuth" and go through the flow.
+2. Run the app.
+3. When the app starts, tap "Sign in with Google" and go through the flow.
 
 
 Using your own credentials
@@ -58,6 +59,19 @@ https://github.com/googlesamples/oauth-apps-for-windows/issues
 Patches are encouraged, and may be submitted by forking this project and
 submitting a pull request through GitHub.
 
+Advanced Reading
+----------------
+
+The protocols and best practices used and implemented in these samples are
+defined by RFCs. These expert-level documents detail how the protocols work,
+and explain the reasoning behind many decisions, such as why we send a
+`code_challenge` on the Authorization Request for a native app.
+
+- [Internet-Draft: OAuth 2.0 for Native Apps BCP](https://tools.ietf.org/html/draft-ietf-oauth-native-apps)
+- [RFC6749: OAuth 2.0](https://tools.ietf.org/html/rfc6749)
+- [RFC6750: OAuth 2.0 Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+- [RFC6819: OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819)
+- [RFC7636: OAuth 2.0 PKCE](https://tools.ietf.org/html/rfc7636)
 
 License
 -------
@@ -68,7 +82,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

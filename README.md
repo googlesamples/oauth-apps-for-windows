@@ -2,7 +2,7 @@ OAuth for Apps: Samples for Windows
 ============
 
 This repository contains samples for doing OAuth 2.0 to Google for Windows apps,
-including traditional and universal apps.
+including universal apps, traditional desktop apps, and CLI tools.
 
 Introduction
 ------------
@@ -19,17 +19,20 @@ a universal app where a URI scheme is used for the same.
 Samples
 -------
 
-If you are building a Universal Windows Platform (UWP) app, view the
-[OAuthUniversalApp](OAuthUniversalApp/README.md) sample.
+[OAuthUniversalApp](OAuthUniversalApp/README.md) - Universal Windows Platform 
+(UWP) sample app
 
+[OAuthDesktopApp](OAuthDesktopApp/README.md) - Traditional desktop  
+application sample (using WPF).
 
-If you are building a traditional desktop Windows application, view the
-[OAuthDesktopApp](OAuthDesktopApp/README.md) sample.
+[OAuthConsoleApp](OAuthConsoleApp/README.md) - Command Line Interface (CLI)
+console application sample.
 
-Both samples achieve the same end result, but in a slightly different way.
+All samples achieve the same end result of authenticating the user in the
+system browser, but with environment-specific optimizations.
 
-Pre-requisites
---------------
+Google Documentation
+--------------------
 
 The protocols referenced in this sample are documented here:
 
@@ -49,6 +52,20 @@ https://github.com/googlesamples/oauth-apps-for-windows/issues
 Patches are encouraged, and may be submitted by forking this project and
 submitting a pull request through GitHub.
 
+Advanced Reading
+----------------
+
+The protocols and best practices used and implemented in these samples are
+defined by RFCs. These expert-level documents detail how the protocols work,
+and explain the reasoning behind many decisions, such as why we send a
+`code_challenge` on the Authorization Request for a native app.
+
+- [Internet-Draft: OAuth 2.0 for Native Apps BCP](https://tools.ietf.org/html/draft-ietf-oauth-native-apps)
+- [RFC6749: OAuth 2.0](https://tools.ietf.org/html/rfc6749)
+- [RFC6750: OAuth 2.0 Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+- [RFC6819: OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819)
+- [RFC7636: OAuth 2.0 PKCE](https://tools.ietf.org/html/rfc7636)
+
 License
 -------
 
@@ -58,7 +75,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
