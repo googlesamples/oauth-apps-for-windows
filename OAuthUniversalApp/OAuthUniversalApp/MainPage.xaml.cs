@@ -26,7 +26,6 @@ using Windows.Data.Json;
 using Windows.Storage.Streams;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
-using System.Threading.Tasks;
 
 namespace OAuthAppUniversalScheme
 {
@@ -135,7 +134,7 @@ namespace OAuthAppUniversalScheme
                 localSettings.Values["state"] = null;
 
                 // Authorization Code is now ready to use!
-                output("Received Authorization Code Grant: " + code);
+                output(Environment.NewLine + "Authorization code: " + code);
 
                 string code_verifier = (String)localSettings.Values["code_verifier"];
                 performCodeExchangeAsync(code, code_verifier);
@@ -162,10 +161,10 @@ namespace OAuthAppUniversalScheme
             handler.AllowAutoRedirect = true;
             HttpClient client = new HttpClient(handler);
 
-            output("Token request body: " + tokenRequestBody);
+            output(Environment.NewLine + "Exchanging code for tokens...");
             HttpResponseMessage response = await client.PostAsync(tokenEndpoint, content);
             string responseString = await response.Content.ReadAsStringAsync();
-            output("Token response: " + responseString);
+            output(responseString);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -179,9 +178,10 @@ namespace OAuthAppUniversalScheme
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
             // Makes a call to the Userinfo endpoint, and prints the results.
+            output("Making API Call to Userinfo...");
             HttpResponseMessage userinfoResponse = client.GetAsync(userInfoEndpoint).Result;
             string userinfoResponseContent = await userinfoResponse.Content.ReadAsStringAsync();
-            output("Userinfo response: " + userinfoResponseContent);
+            output(userinfoResponseContent);
         }
 
         /// <summary>

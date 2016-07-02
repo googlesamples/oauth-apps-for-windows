@@ -28,8 +28,7 @@ limitations under the License.
             <Image Source="Assets/btn_google_sign-in.png" Stretch="UniformToFill"/>
         </Button>
         <TextBox x:Name="textBoxOutput" HorizontalAlignment="Left" Height="209" Margin="22,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="470"
-         IsReadOnly="True"
+         IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
          />
-
     </Grid>
 </Window>

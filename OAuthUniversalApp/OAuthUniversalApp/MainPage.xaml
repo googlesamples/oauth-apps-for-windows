@@ -30,11 +30,11 @@ limitations under the License.
             <Image Source="Assets/btn_google_sign-in.png" Stretch="UniformToFill"/>
         </Button>
         <TextBox x:Name="textBoxOutput" MinHeight="158" Margin="22,22,22,22" TextWrapping="Wrap" Text=""
-               RelativePanel.Below="button"
-               RelativePanel.AlignLeftWithPanel="True"
-               RelativePanel.AlignRightWithPanel="True"
-               RelativePanel.AlignBottomWithPanel="True"
-                 IsReadOnly="True"
-                   />
+                IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                RelativePanel.Below="button"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignBottomWithPanel="True"
+        />
     </RelativePanel>
 </Page>

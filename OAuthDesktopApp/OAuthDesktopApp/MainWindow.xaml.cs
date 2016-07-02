@@ -132,21 +132,10 @@ namespace OAuthApp
             performCodeExchange(code, code_verifier, redirectURI);
         }
 
-        async void sendHTTPResponse(HttpListenerContext context, HttpListener httpServer)
-        {
-            // Sends an HTTP response to the browser.
-            var response = context.Response;
-            string responseString = string.Format("<html><body>Please return to the app.</body></html>");
-            var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            var responseOutput = response.OutputStream;
-            await responseOutput.WriteAsync(buffer, 0, buffer.Length);
-            responseOutput.Close();
-            httpServer.Stop();
-        }
-
         async void performCodeExchange(string code, string code_verifier, string redirectURI)
         {
+            output("Exchanging code for tokens...");
+
             // builds the  request
             string tokenRequestURI = "https://www.googleapis.com/oauth2/v4/token";
             string tokenRequestBody = string.Format("code={0}&redirect_uri={1}&client_id={2}&code_verifier={3}&client_secret={4}&scope=&grant_type=authorization_code",
@@ -176,17 +165,10 @@ namespace OAuthApp
                 {
                     // reads response body
                     string responseText = await reader.ReadToEndAsync();
-                    Console.WriteLine(responseText);
+                    output(responseText);
 
                     // converts to dictionary
                     Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
-
-                    // updates UI
-                    string successString = string.Format("refresh_token:{0}, id_token:{1}, access_token:{2}",
-                        tokenEndpointDecoded["refresh_token"],
-                        tokenEndpointDecoded["access_token"],
-                        tokenEndpointDecoded["id_token"]);
-                    this.output(successString);
 
                     string access_token = tokenEndpointDecoded["access_token"];
                     userinfoCall(access_token);
@@ -215,6 +197,8 @@ namespace OAuthApp
 
         async void userinfoCall(string access_token)
         {
+            output("Making API Call to Userinfo...");
+
             // builds the  request
             string userinfoRequestURI = "https://www.googleapis.com/oauth2/v3/userinfo";
 
@@ -231,9 +215,7 @@ namespace OAuthApp
             {
                 // reads response body
                 string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
-                Console.WriteLine(userinfoResponseText);
-
-                textBoxOutput.Text = textBoxOutput.Text + "\n" + userinfoResponseText;
+                output(userinfoResponseText);
             }
         }
 
