@@ -208,12 +208,12 @@ namespace OAuthAppUniversalScheme
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        /// <param name="inputStirng"></param>
+        /// <param name="inputString"></param>
         /// <returns></returns>
-        public static IBuffer sha256(string inputStirng)
+        public static IBuffer sha256(string inputString)
         {
             HashAlgorithmProvider sha = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
-            IBuffer buff = CryptographicBuffer.ConvertStringToBinary(inputStirng, BinaryStringEncoding.Utf8);
+            IBuffer buff = CryptographicBuffer.ConvertStringToBinary(inputString, BinaryStringEncoding.Utf8);
             return sha.HashData(buff);
         }
 
