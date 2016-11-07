@@ -26,6 +26,7 @@ using Windows.Data.Json;
 using Windows.Storage.Streams;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
+using Windows.Security.Authentication.Web;
 
 namespace OAuthAppUniversalScheme
 {
@@ -38,9 +39,10 @@ namespace OAuthAppUniversalScheme
         /// OAuth 2.0 client configuration.
         /// </summary>
         const string clientID = "581786658708-r4jimt0msgjtp77b15lonfom92ko6aeg.apps.googleusercontent.com";
-        const string redirectURI = "pw.oauth2:/oauth2redirect";
+        const string redirectURI = "urn:ietf:wg:oauth:2.0:oob";
         const string authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
         const string tokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
+        const string authorizationCompleteEndPoint = "https://accounts.google.com/o/oauth2/approval";
         const string userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 
         public MainPage()
@@ -51,20 +53,13 @@ namespace OAuthAppUniversalScheme
         /// <summary>
         /// Starts an OAuth 2.0 Authorization Request.
         /// </summary>
-        private void button_Click(object sender, RoutedEventArgs e)
+        private async void button_Click(object sender, RoutedEventArgs e)
         {
             // Generates state and PKCE values.
             string state = randomDataBase64url(32);
             string code_verifier = randomDataBase64url(32);
             string code_challenge = base64urlencodeNoPadding(sha256(code_verifier));
             const string code_challenge_method = "S256";
-
-            // Stores the state and code_verifier values into local settings.
-            // Member variables of this class may not be present when the app is resumed with the
-            // authorization response, so LocalSettings can be used to persist any needed values.
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values["state"] = state;
-            localSettings.Values["code_verifier"] = code_verifier;
 
             // Creates the OAuth 2.0 authorization request.
             string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
@@ -77,72 +72,69 @@ namespace OAuthAppUniversalScheme
 
             output("Opening authorization request URI: " + authorizationRequest);
 
-            // Opens the Authorization URI in the browser.
-            var success = Windows.System.Launcher.LaunchUriAsync(new Uri(authorizationRequest));
+            var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.UseTitle, new Uri(authorizationRequest), new Uri(authorizationCompleteEndPoint));
+            output("WebAuthenticationBroker result: " + result.ResponseStatus);
+            switch (result.ResponseStatus) {
+                case WebAuthenticationStatus.Success:
+                    string data = result.ResponseData;
+                    // Strip authentication result from data and process rest of encoded data.
+                    ProcessAuthorization(data.Substring(data.IndexOf(' ') + 1), state, code_verifier);
+                    break;
+
+                case WebAuthenticationStatus.ErrorHttp:
+                    output("HTTP error: " + result.ResponseErrorDetail);
+                    break;
+
+                case WebAuthenticationStatus.UserCancel:
+                    break;
+            }
         }
 
         /// <summary>
         /// Processes the OAuth 2.0 Authorization Response
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /// <param name="data">Incoming data formatted as a query string</param>
+        /// <param name="expected_state">Expected state value to verify that this app has initiated authentication</param>
+        private void ProcessAuthorization(string data, string expected_state, string code_verifier)
         {
-            if (e.Parameter is Uri)
+            output("MainPage received authorizationResponse: " + data);
+
+            // Parses URI params into a dictionary
+            // ref: http://stackoverflow.com/a/11957114/72176
+            Dictionary<string, string> queryStringParams = data.Split('&').ToDictionary(
+                c => c.Split('=')[0],
+                c => Uri.UnescapeDataString(c.Split('=')[1])
+            );
+
+            if (queryStringParams.ContainsKey("error"))
             {
-                // Gets URI from navigation parameters.
-                Uri authorizationResponse = (Uri)e.Parameter;
-                string queryString = authorizationResponse.Query;
-                output("MainPage received authorizationResponse: " + authorizationResponse);
-
-                // Parses URI params into a dictionary
-                // ref: http://stackoverflow.com/a/11957114/72176
-                Dictionary<string, string> queryStringParams =
-                        queryString.Substring(1).Split('&')
-                             .ToDictionary(c => c.Split('=')[0],
-                                           c => Uri.UnescapeDataString(c.Split('=')[1]));
-
-                if (queryStringParams.ContainsKey("error"))
-                {
-                    output(String.Format("OAuth authorization error: {0}.", queryStringParams["error"]));
-                    return;
-                }
-
-                if (!queryStringParams.ContainsKey("code")
-                    || !queryStringParams.ContainsKey("state"))
-                {
-                    output("Malformed authorization response. " + queryString);
-                    return;
-                }
-
-                // Gets the Authorization code & state
-                string code = queryStringParams["code"];
-                string incoming_state = queryStringParams["state"];
-
-                // Retrieves the expected 'state' value from local settings (saved when the request was made).
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string expected_state = (String) localSettings.Values["state"];
-
-                // Compares the receieved state to the expected value, to ensure that
-                // this app made the request which resulted in authorization
-                if (incoming_state != expected_state)
-                {
-                    output(String.Format("Received request with invalid state ({0})", incoming_state));
-                    return;
-                }
-
-                // Resets expected state value to avoid a replay attack.
-                localSettings.Values["state"] = null;
-
-                // Authorization Code is now ready to use!
-                output(Environment.NewLine + "Authorization code: " + code);
-
-                string code_verifier = (String)localSettings.Values["code_verifier"];
-                performCodeExchangeAsync(code, code_verifier);
+                output(String.Format("OAuth authorization error: {0}.", queryStringParams["error"]));
+                return;
             }
-            else
+
+            if (!queryStringParams.ContainsKey("code")
+                || !queryStringParams.ContainsKey("state"))
             {
-                Debug.WriteLine(e.Parameter);
+                output("Malformed authorization response. " + data);
+                return;
             }
+
+            // Gets the Authorization code & state
+            string code = queryStringParams["code"];
+            string incoming_state = queryStringParams["state"];
+
+            // Compares the received state to the expected value, to ensure that
+            // this app made the request which resulted in authorization
+            if (incoming_state != expected_state)
+            {
+                output(String.Format("Received request with invalid state ({0})", incoming_state));
+                return;
+            }
+
+            // Authorization Code is now ready to use!
+            output(Environment.NewLine + "Authorization code: " + code);
+
+            performCodeExchangeAsync(code, code_verifier);
         }
 
         async void performCodeExchangeAsync(string code, string code_verifier)
@@ -208,12 +200,12 @@ namespace OAuthAppUniversalScheme
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        /// <param name="inputStirng"></param>
+        /// <param name="inputString"></param>
         /// <returns></returns>
-        public static IBuffer sha256(string inputStirng)
+        public static IBuffer sha256(string inputString)
         {
             HashAlgorithmProvider sha = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
-            IBuffer buff = CryptographicBuffer.ConvertStringToBinary(inputStirng, BinaryStringEncoding.Utf8);
+            IBuffer buff = CryptographicBuffer.ConvertStringToBinary(inputString, BinaryStringEncoding.Utf8);
             return sha.HashData(buff);
         }
 
