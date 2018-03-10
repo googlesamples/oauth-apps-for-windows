@@ -1,0 +1,5 @@
+
+$client = new Google_Client();
+$client->setApplicationName("My Application");
+$client->setDeveloperKey("AIzaSyDutxXmUaC939bhH_FVlTiforGFveFBNcc");
+  
