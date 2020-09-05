@@ -250,11 +250,11 @@ namespace OAuthConsoleApp
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        /// <param name="inputStirng"></param>
+        /// <param name="inputString"></param>
         /// <returns></returns>
-        public static byte[] sha256(string inputStirng)
+        public static byte[] sha256(string inputString)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(inputStirng);
+            byte[] bytes = Encoding.ASCII.GetBytes(inputString);
             SHA256Managed sha256 = new SHA256Managed();
             return sha256.ComputeHash(bytes);
         }
