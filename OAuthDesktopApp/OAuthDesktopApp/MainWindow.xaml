@@ -22,13 +22,13 @@ limitations under the License.
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
         >
-    <Grid>
-        <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="button_Click"
+  <Grid>
+    <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="button_Click"
                 BorderThickness="0" Padding="0" Background="Transparent">
-            <Image Source="Assets/btn_google_sign-in.png" Stretch="UniformToFill"/>
-        </Button>
-        <TextBox x:Name="textBoxOutput" HorizontalAlignment="Left" Height="209" Margin="22,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="470"
+      <Image Source="Assets/btn_google_sign-in.png" Stretch="UniformToFill"/>
+    </Button>
+    <TextBox x:Name="textBoxOutput" Margin="22,89,25,21" TextWrapping="Wrap" Text=""
          IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
          />
-    </Grid>
+  </Grid>
 </Window>
