@@ -1,38 +1,21 @@
-OAuth for Apps: Samples for Windows
-============
+OAuth for Apps: Sample Console Application for Windows
+======================================================
 
-This repository contains samples for doing OAuth 2.0 to Google for Windows apps,
-including universal apps, traditional desktop apps, and CLI tools.
+This sample shows how to do an OAuth 2.0 Authorization flow from a Windows
+Console application. It is one of a [series of OAuth samples](../README.md)
+for Windows.
 
 Introduction
 ------------
 
-When doing an OAuth 2.0 Authorization flow to Google in a native application, it
-is important to follow 
-[best practices](https://tools.ietf.org/html/draft-ietf-oauth-native-apps), 
-which require using the browser (and not an embedded browser).
+When doing an OAuth 2.0 Authorization flow in a native application, it is 
+important to follow best practices, which require using the browser (and not 
+an embedded browser).
 
-These samples show how to complete an OAuth 2.0 Authorization request in a
-traditional app, where a loopback redirect is used to received the code, and in
-a universal app where a URI scheme is used for the same.
-
-Samples
--------
-
-[OAuthUniversalApp](OAuthUniversalApp/README.md) - Universal Windows Platform 
-(UWP) sample app
-
-[OAuthDesktopApp](OAuthDesktopApp/README.md) - Traditional desktop  
-application sample (using WPF).
-
-[OAuthConsoleApp](OAuthConsoleApp/README.md) - Command Line Interface (CLI)
-console application sample (C# interface).
-
-[OAuthConsoleAppCpp](OAuthConsoleApp/README.md) - Command Line Interface (CLI)
-console application sample (C++ interface).
-
-All samples achieve the same end result of authenticating the user in the
-system browser, but with environment-specific optimizations.
+This sample demonstrates how you can open the user's browser with your OAuth 2.0
+authorization request (where they might already be logged in!), have them
+complete the consent, receive the Authorization Code using a local loopback
+socket, and exchanging that code for authorization tokens.
 
 Google Documentation
 --------------------
@@ -41,6 +24,28 @@ The protocols referenced in this sample are documented here:
 
 - [OAuth 2.0](https://developers.google.com/identity/protocols/OAuth2)
 - [Using OAuth 2.0 for Mobile and Desktop Applications](https://developers.google.com/identity/protocols/OAuth2InstalledApp)
+
+Getting Started
+---------------
+
+1. Open the solution file: `OAuthConsoleAppCpp.sln`
+2. Run the app.
+3. When the app starts, tap any key and go through the flow.
+4. Tap any key to exit.
+
+
+Using your own credentials
+--------------------------
+
+The Sample comes backed with some demo client credentials, which are fine for
+testing, but make sure you use your own credentials before releasing any app,
+or sharing it with friends.
+
+1. Visit the [Credentials page of the Developers Console](https://console.developers.google.com/apis/credentials?project=_)
+2. Create a new OAuth 2.0 client, select `Other`
+3. Copy the client id and client secret, and replace the values supplied in this
+   sample.
+
 
 Support
 -------
