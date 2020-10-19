@@ -22,9 +22,11 @@ using OAuthConsoleAppCpp::CLRLib;
 
 void output(const wchar_t * output)
 {
-	_setmode(_fileno(stdout), _O_U16TEXT);
+	const auto originalMode = _setmode(_fileno(stdout), _O_U16TEXT);
+
 	wprintf(L"%s\n", output);
-	_setmode(_fileno(stdout), _O_TEXT);
+
+	_setmode(_fileno(stdout), originalMode);
 }
 
 int main()
