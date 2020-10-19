@@ -14,7 +14,7 @@ an embedded browser).
 
 This sample demonstrates how you can open the user's browser with your OAuth 2.0
 authorization request (where they might already be logged in!), have them
-complete the consent, recieve the Authorization Code using a local loopback
+complete the consent, receive the Authorization Code using a local loopback
 socket, and exchanging that code for authorization tokens.
 
 Google Documentation
