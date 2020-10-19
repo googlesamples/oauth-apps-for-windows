@@ -74,7 +74,7 @@ namespace OAuthConsoleApp
             // Creates an HttpListener to listen for requests on that redirect URI.
             var http = new HttpListener();
             http.Prefixes.Add(redirectURI);
-            output("Listening..");
+            output("Listening...");
             http.Start();
 
             // Creates the OAuth 2.0 authorization request.

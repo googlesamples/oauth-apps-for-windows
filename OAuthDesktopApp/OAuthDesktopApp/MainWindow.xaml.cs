@@ -68,7 +68,7 @@ namespace OAuthApp
             // Creates an HttpListener to listen for requests on that redirect URI.
             var http = new HttpListener();
             http.Prefixes.Add(redirectURI);
-            output("Listening..");
+            output("Listening...");
             http.Start();
             
             // Creates the OAuth 2.0 authorization request.
@@ -245,11 +245,11 @@ namespace OAuthApp
         /// <summary>
         /// Returns the SHA256 hash of the input string.
         /// </summary>
-        /// <param name="inputStirng"></param>
+        /// <param name="inputString"></param>
         /// <returns></returns>
-        public static byte[] sha256(string inputStirng)
+        public static byte[] sha256(string inputString)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(inputStirng);
+            byte[] bytes = Encoding.ASCII.GetBytes(inputString);
             SHA256Managed sha256 = new SHA256Managed();
             return sha256.ComputeHash(bytes);
         }
