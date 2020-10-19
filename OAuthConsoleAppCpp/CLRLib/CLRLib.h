@@ -14,7 +14,7 @@
 
 #pragma once
 
-typedef void(__cdecl *outputCallback)(const char *);
+typedef void(__cdecl *outputCallback)(const wchar_t *);
 
 namespace OAuthConsoleAppCpp
 {

@@ -30,9 +30,9 @@ namespace
 
 	void outputCallbackWrapper(String^ output)
 	{
-		auto outputPtr = Marshal::StringToHGlobalAnsi(output).ToPointer();
+		auto outputPtr = Marshal::StringToHGlobalUni(output).ToPointer();
 
-		currentCallback(static_cast<const char *>(outputPtr));
+		currentCallback(static_cast<const wchar_t *>(outputPtr));
 
 		Marshal::FreeHGlobal(static_cast<IntPtr>(outputPtr));
 	}

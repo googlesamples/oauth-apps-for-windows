@@ -13,14 +13,18 @@
 // limitations under the License.
 
 #include <cstdio>
+#include <fcntl.h>
+#include <io.h>
 
 #include "CLRLib.h"
 
 using OAuthConsoleAppCpp::CLRLib;
 
-void output(const char * output)
+void output(const wchar_t * output)
 {
-	printf("%s\n", output);
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	wprintf(L"%s\n", output);
+	_setmode(_fileno(stdout), _O_TEXT);
 }
 
 int main()
