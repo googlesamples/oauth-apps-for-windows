@@ -16,6 +16,10 @@ These samples show how to complete an OAuth 2.0 Authorization request in a
 traditional app, where a loopback redirect is used to received the code, and in
 a universal app where a URI scheme is used for the same.
 
+> **Note**  
+> When using Google APIs, the [Google.Apis.Auth](https://www.nuget.org/packages/Google.Apis.Auth/)
+> package provides an OAuth2 implementation which integrates with Google Cloud Platform.
+
 Samples
 -------
 
