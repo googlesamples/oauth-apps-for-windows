@@ -23,12 +23,19 @@ limitations under the License.
         Title="MainWindow" Height="350" Width="525"
         >
   <Grid>
-    <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="button_Click"
+    <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Button_Click"
                 BorderThickness="0" Padding="0" Background="Transparent">
       <Image Source="Assets/btn_google_sign-in.png" Stretch="UniformToFill"/>
     </Button>
-    <TextBox x:Name="textBoxOutput" Margin="22,89,25,21" TextWrapping="Wrap" Text=""
+    <TextBox x:Name="textBoxOutput" Margin="22,89,25,21" TextWrapping="Wrap" Text="{Binding OutputText}"
          IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
          />
+    <Label x:Name="label" Content="{Binding Name}" Margin="229,34,76,0" VerticalAlignment="Top"/>
+    <Ellipse x:Name="contactImageFrame" Height="46" Width="46" Margin="0,22,25,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+      <Ellipse.Fill>
+        <ImageBrush x:Name="contactImage" ImageSource="{Binding ImageSource}">
+        </ImageBrush>
+      </Ellipse.Fill>
+    </Ellipse>
   </Grid>
 </Window>
