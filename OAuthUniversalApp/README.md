@@ -76,11 +76,11 @@ defined by RFCs. These expert-level documents detail how the protocols work,
 and explain the reasoning behind many decisions, such as why we send a
 `code_challenge` on the Authorization Request for a native app.
 
-- [Internet-Draft: OAuth 2.0 for Native Apps BCP](https://tools.ietf.org/html/draft-ietf-oauth-native-apps)
-- [RFC6749: OAuth 2.0](https://tools.ietf.org/html/rfc6749)
-- [RFC6750: OAuth 2.0 Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-- [RFC6819: OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819)
-- [RFC7636: OAuth 2.0 PKCE](https://tools.ietf.org/html/rfc7636)
+- [RFC 8252: OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252)
+- [RFC 6749: OAuth 2.0](https://tools.ietf.org/html/rfc6749)
+- [RFC 6750: OAuth 2.0 Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+- [RFC 6819: OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819)
+- [RFC 7636: OAuth 2.0 PKCE](https://tools.ietf.org/html/rfc7636)
 
 License
 -------
