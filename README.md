@@ -30,7 +30,10 @@ Samples
 application sample (using WPF).
 
 [OAuthConsoleApp](OAuthConsoleApp/README.md) - Command Line Interface (CLI)
-console application sample.
+console application sample (C# interface).
+
+[OAuthConsoleAppCpp](OAuthConsoleApp/README.md) - Command Line Interface (CLI)
+console application sample (C++ interface).
 
 All samples achieve the same end result of authenticating the user in the
 system browser, but with environment-specific optimizations.
