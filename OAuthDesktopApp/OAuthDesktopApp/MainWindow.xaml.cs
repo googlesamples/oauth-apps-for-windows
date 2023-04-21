@@ -21,8 +21,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio;
 
 namespace OAuthApp
 {
@@ -76,7 +76,7 @@ namespace OAuthApp
             }
             catch (HttpListenerException ex)
             {
-                if (ex.HResult == unchecked((int) 0x80004005))
+                if (ex.HResult == VSConstants.E_FAIL)
                 {
                     MessageBox.Show("Access denied. Try running the program as an administrator.", "OAuthDesktopApp",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
