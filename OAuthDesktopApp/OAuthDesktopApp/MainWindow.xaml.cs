@@ -21,8 +21,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio;
 
 namespace OAuthApp
 {
@@ -69,8 +69,22 @@ namespace OAuthApp
             var http = new HttpListener();
             http.Prefixes.Add(redirectURI);
             output("Listening..");
-            http.Start();
-            
+
+            try
+            {
+                http.Start();
+            }
+            catch (HttpListenerException ex)
+            {
+                if (ex.HResult == VSConstants.E_FAIL)
+                {
+                    MessageBox.Show("Access denied. Try running the program as an administrator.", "OAuthDesktopApp",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    return;
+                }
+            }
+
             // Creates the OAuth 2.0 authorization request.
             string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
                 authorizationEndpoint,
